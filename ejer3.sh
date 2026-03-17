@@ -3,8 +3,8 @@
 
 archivo=~/EPNro1/salida/FILENAME.txt
 
-if [ -f $archivo ] ; then
-  sort -n $archivo
+if [ -f "$archivo" ] ; then
+  sort -n "$archivo"
 else
   echo "El archivo FILENAME.txt no existe"
 fi
