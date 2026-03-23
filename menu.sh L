@@ -1,0 +1,101 @@
+export FILENAME=~/EPNro1/salida/FILENAME.txt
+mkdir dir_trabajo | cd
+touch menu.sh | chmod +x
+---------
+#menu.sh
+#!/bim/bash
+dir_proyeco=~/EPNro1
+salida="$dir_proyecto/salida"
+entrada="$dir_proyecto/entrada"
+procesado="$dir_proyecto/procesado"
+
+script_consolidar() {
+    while true; do
+         for archivo in "$entrada"*/.txt; do
+             if [ -f $archivo ] then 
+                 cat "$archivo" >> "$FILENAME"
+                 mv "$archivo" "$procesado"
+             fi
+         done
+         sleep 5
+     done
+}
+
+menu_usuario() {
+    echo " ------MENU------"
+    echo "1) Crear entorno"
+    echo "2) Correr proseso (mover elementos de 'entrada' a 'salida'(FILENAME.txt))"
+    echo "3) Listado de fichero ordenado por padron"
+    echo "4) Top 10 mejores notas"
+    echo "5) Buscar por numero de padrón
+    echo "6) Salir
+    echo -n "Seleccione una opcion 1/2/3/4/5/6"
+}
+main() {
+    declare -i continuar=0 
+    while [[ $continuar -eq 0 ]]; do 
+        menu
+        read -p "Opcion > " opcion
+        case $opcion in
+            1)
+                mkdir -p EPNro1/{entrada, salida, procesado}
+                cd EPNro1 | touch consolidando.sh |chmod +x 
+                script_consolidar >> consolidando.sh
+                echo "Entorno creado"
+            ;;
+
+            2) 
+                if [ -f "$script2"]; then
+                    nohup "$script2" &
+                    echo "Corriendo proseso en segundo plano (bg)"
+                else 
+                    echo "ERROR, primero tiene que Crear el entorno (1) "
+                fi
+            ;;
+
+            3)  
+                if [ -f "$FILENAME" ] ; then
+                    sort -n "$FILENAME"
+                else
+                    echo "El archivo FILENAME.txt no existe"
+                fi
+            ;;
+
+            4)  
+                if [ -f "$FILENAME" ]; then 
+                    sort -k5,5nr "$FILENAME" | head -n 10
+                else
+                    echo "Error: El archivo FILENAME.txt no existe en la carpeta salida."
+                fi
+            ;;
+
+            5)
+                read -p "Ingrese el padron de un usuario: " padron
+                if [[ !(-f $FILENAME) ]]; then
+                    echo "El archivo $FILENAME no existe"
+                else
+                    echo -en "Mostrando alumno:\n"
+                    grep $padron $FILENAME | head -n 1
+                fi
+            ;;
+
+            6) 
+                let continuar=1
+                
+            ;;
+
+            *)
+                echo "Vuelva ha intentarlo"
+                sleep 2 
+                systemctl reboot
+            ;;
+        esac
+        echo -ne "\n ------------\n"
+    done
+}
+
+main
+
+    
+
+  
