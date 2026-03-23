@@ -8,6 +8,7 @@ dir_proyeco=~/EPNro1
 salida="$dir_proyecto/salida"
 entrada="$dir_proyecto/entrada"
 procesado="$dir_proyecto/procesado"
+script2="$dir_proyecto/consolidar.sh"
 parametro=$1
 
 #Parametro opcional (-d) para desacer la script menu.sh
