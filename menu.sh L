@@ -8,6 +8,19 @@ dir_proyeco=~/EPNro1
 salida="$dir_proyecto/salida"
 entrada="$dir_proyecto/entrada"
 procesado="$dir_proyecto/procesado"
+parametro=$1
+
+#Parametro opcional (-d) para desacer la script menu.sh
+retroceder_script() {
+    rm -rf"$dir_proyecto"
+    pkill -f "consolidar.sh"
+    echo "entorno borrado (también se detuvieron todos los procesos secundarios)"
+]
+
+if [ "$parametro" == "-d" ]; then
+    retroceder_script
+fi
+
 
 script_consolidar() {
     while true; do
