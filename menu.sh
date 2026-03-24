@@ -6,18 +6,23 @@ export FILENAME="$DIR_WORK/salida/filename"
 parametro=$1
 
 crear_entorno(){
+	if [[ -d $DIR_WORK ]]; then
+		rm -rf $DIR_WORK
+	fi
     echo "[+] Creando directorio de trabajo"
     mkdir -p $DIR_WORK
     declare -a subdrirectorios=( entrada salida procesado )
-    for subd in $subdrirectorios; do
+    for subd in ${subdrirectorios[@]}; do
+       if [[ ! (-d $subd) ]]; then 
         mkdir -p $DIR_WORK/$subd
+       fi
     done
-    echo -e "122332 Juan Lopez jlopez@fi.uba.ar 8\n100998 Pedro Valdéz pvaldez@fi.uba.ar 5" >$DIR_WORK/entrada/datos.txt
+    echo -e "122332 Juan Lopez jlopez@fi.uba.ar 8\n100998 Pedro Valdéz pvaldez@fi.uba.ar 5" >"$DIR_WORK/entrada/datos.txt"
 
 }
 correr_proceso(){
     cp consolidar.sh "$DIR_WORK/consolidar.sh"
-    bash $DIR_WORK/consolidar.sh
+    bash "$DIR_WORK/consolidar.sh"
 }
 
 mostrar_listado(){
@@ -88,7 +93,9 @@ main() {
                 echo "Opcion ingresada es invalida"
                 ;;
         esac
+   		echo -e "\n"
     done
+   
     borrar_entorno $parametro
 }
 main
