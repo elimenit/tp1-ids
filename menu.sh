@@ -9,7 +9,6 @@ SCRIPT_CONSOLIDAR="$ENTORNO/consolidar.sh"
 
 borrar_entorno() {
     echo "Borrando entorno..."
-    pkill -f "consolidar.sh"
     rm -rf "$HOME/EPNro1"
     echo "Entorno eliminado y procesos finalizados."
 }
@@ -32,7 +31,7 @@ crear_entorno() {
 correr_proceso() {
     echo "Opcion seleccionada: Correr proceso"
     if [ -f "$SCRIPT_CONSOLIDAR" ]; then
-        # el & hace que se ejecute en background
+        # el & hace que se ejecute en segundo plano
         bash "$SCRIPT_CONSOLIDAR"  # Envia a segundo plano un proceso
         echo "Proceso corriendo en segundo plano."
     else
@@ -82,6 +81,9 @@ imprimir_menu() {
 }
 
 main() {
+	if [[ $1 == "-d" ]]; then
+		borrar-entorno
+	fi
   	continuar=0 
     while [[ $continuar -eq 0 ]]; do
         imprimir_menu
@@ -112,7 +114,7 @@ main() {
                 ;;
         esac
     done
-    if [[  $1 == "-d" ]]; then
+    if [[ $1 == "-d" ]]; then
     	borrar_entorno
     fi
 }
