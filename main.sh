@@ -6,57 +6,6 @@ ENTORNO="$HOME/EPNro1"
 ARCHIVO_SALIDA="$ENTORNO/salida/${FILENAME}.txt"
 SCRIPT_CONSOLIDAR="$ENTORNO/consolidar.sh"
 
-if [ "$1" == "-d" ]; then
-    borrar_entorno
-    exit 0
-fi
-
-while true; do
-    echo "-------------------------------"
-    echo "MENÚ DE OPCIONES - EPNro1"
-    echo "-------------------------------"
-    echo "1 - Crear entorno"
-    echo "2 - Correr proceso (background)"
-    echo "3 - Listar alumnos ordenados por padrón"
-    echo "4 - Mostrar las 10 notas más altas"
-    echo "5 - Buscar alumno por número de padrón"
-    echo "6 - Salir"
-    echo "-------------------------------"
-    
-    echo "Seleccione una opción de 1 a 6: "
-    read OPCION
-
-    case $OPCION in
-        1)
-            crear_entorno()
-            ;;
-        2)
-            correr_proceso()
-            ;;
-        3)
-            listar_por_padron()
-            ;;
-        4)
-            top_10_notas()
-            ;;
-        5)
-            buscar_por_padron()
-            ;;
-        6)
-            echo "Saliendo del programa. ¡Adiós!"
-            exit 0
-            ;;
-        *)
-            echo "Opción no válida. Intente de nuevo."
-            ;;
-    esac
-    
-
-    echo ""
-    echo "Presione Enter para continuar..."
-    read CONTINUAR
-    clear
-done
 
 borrar_entorno() {
     echo "Borrando entorno..."
@@ -119,3 +68,57 @@ buscar_por_padron() {
     fi
 }
 
+imprimir_menu() {
+    echo "-------------------------------"
+    echo "MENU DE OPCIONES"
+    echo "-------------------------------"
+    echo "1 - Crear entorno"
+    echo "2 - Correr proseso en background (mover elementos de 'entrada' a 'salida')"
+    echo "3 - Listado de fichero ordenado por padron"
+    echo "4 - Top 10 mejores notas"
+    echo "5 - Buscar por numero de padrón"
+    echo "6 - Salir"
+    echo -n "Seleccione una opcion de 1 a 6: "
+}
+
+
+if [ "$1" == "-d" ]; then
+    borrar_entorno
+    exit 0
+fi
+
+while true; do
+    imprimir_menu
+    read OPCION
+
+    case $OPCION in
+        1)
+            crear_entorno()
+            ;;
+        2)
+            correr_proceso()
+            ;;
+        3)
+            listar_por_padron()
+            ;;
+        4)
+            top_10_notas()
+            ;;
+        5)
+            buscar_por_padron()
+            ;;
+        6)
+            echo "Saliendo del programa. ¡Adiós!"
+            exit 0
+            ;;
+        *)
+            echo "Opción no válida. Intente de nuevo."
+            ;;
+    esac
+    
+
+    echo ""
+    echo "Presione Enter para continuar..."
+    read CONTINUAR
+    clear
+done
