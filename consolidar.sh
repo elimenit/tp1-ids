@@ -1,19 +1,16 @@
 #!/bin/bash
 
-DIRECTORIO_BASE="$HOME/EPNro1"
-ENTRADA="$DIRECTORIO_BASE/entrada"
-SALIDA="$DIRECTORIO_BASE/salida"
-PROCESADO="$DIRECTORIO_BASE/procesado"
+for archivo in $(ls "$DIR_WORK/entrada"); do
+    # Concatenamos el contenido
+    cat "$DIR_WORK/entrada/$archivo" >> "$FILENAME.txt"
+    
+    # REGLA: $? captura el éxito (0) o error (1+) del comando anterior (cat)
+    if [[ $? -eq 0 ]]; then
+        echo "Procesado correctamente: $archivo"
+    else
+        echo "La falla está en cat y $archivo"
+    fi
 
-ARCHIVO_FINAL="$SALIDA/${FILENAME}.txt"
-
-
-while true; do
-    for archivo in "$ENTRADA"/*.txt; do
-        if [ -f "$archivo" ]; then
-            cat "$archivo" >> "$ARCHIVO_FINAL"
-            mv "$archivo" "$PROCESADO/"
-        fi
-    done
-    sleep 5
+    # Movimiento corregido (añadida / después de procesado)
+    mv "$DIR_WORK/entrada/$archivo" "$DIR_WORK/procesado/$archivo"
 done
