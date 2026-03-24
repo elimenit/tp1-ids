@@ -1,123 +1,94 @@
 #!/bin/bash
 
-export FILENAME="alumnos"
+# Variables de Entorno
+export DIR_WORK="$HOME/EPNro1"
+export FILENAME="$DIR_WORK/salida/filename"
+parametro=$1
 
-ENTORNO="$HOME/EPNro1" # DIRECTORIO DE TRABAJO
-ARCHIVO_SALIDA="$ENTORNO/salida/${FILENAME}.txt"
-SCRIPT_CONSOLIDAR="$ENTORNO/consolidar.sh"
+crear_entorno(){
+    echo "[+] Creando directorio de trabajo"
+    mkdir -p $DIR_WORK
+    declare -a subdrirectorios=( entrada salida procesado )
+    for subd in $subdrirectorios; do
+        mkdir -p $DIR_WORK/$subd
+    done
+    echo -e "122332 Juan Lopez jlopez@fi.uba.ar 8\n100998 Pedro Valdéz pvaldez@fi.uba.ar 5" >$DIR_WORK/entrada/datos.txt
 
+}
+correr_proceso(){
+    cp consolidar.sh "$DIR_WORK/consolidar.sh"
+    bash $DIR_WORK/consolidar.sh
+}
 
+mostrar_listado(){
+    if [[ -f "$FILENAME.txt" ]]; then
+        echo "[+] Mostrando Alumnos"
+        sort -k 1 -n "$FILENAME.txt"
+    else
+        echo "No hay datos"
+    fi
+}
+diez_notas_altas(){
+    if [[ -f "$FILENAME.txt" ]]; then
+        echo "[+] Mostrando las 10 notas mas altas"
+        sort -k 5 -nr "$FILENAME.txt" | head -n 10
+    else
+        echo "No existen datos"
+    fi
+}
+obtener_usuario(){
+    read -p "Ingrese un numero de padron: " padron
+    echo "[+] Informacion para $padron"
+    grep $padron "$FILENAME.txt" | uniq -u  # | head -n 1
+
+}
 borrar_entorno() {
-    echo "Borrando entorno..."
-    rm -rf "$HOME/EPNro1"
-    echo "Entorno eliminado y procesos finalizados."
-}
-
-crear_entorno() {
-	ar_ejemplo="$ENTORNO/entrada/data.txt"
-	if [[ ! ( -d $ENTORNO) ]]; then
-		echo "Creando el entorno de trabajo"
-		mkdir -p "$ENTORNO"/{entrada,salida,procesado}
-   		touch "$ARCHIVO_SALIDA"
-        cp "consolidar.sh" "$SCRIPT_CONSOLIDAR"
-        chmod 700 "$SCRIPT_CONSOLIDAR"
-		echo -ne "122332 Juan Lopez jlopez@fi.uba.ar 8\n100998 Pedro Valdéz pvaldez@fi.uba.ar 5\n89032 Carla Simone csimone@fi.uba.ar 7\n77542 Franco Lomba flomba@fi.uba.ar 10\n100223 Juana Pola jpola@fi.uba.ar 4\n122435 Lucia Fernandez lfernandez@fi.uba.ar 9" > $ar_ejemplo
-	    echo "Entorno creado."
-   	else
-   		echo "Ya existe el directorio de trabajo"
-   	fi
-}
-
-correr_proceso() {
-    echo "Opcion seleccionada: Correr proceso"
-    if [ -f "$SCRIPT_CONSOLIDAR" ]; then
-        # el & hace que se ejecute en segundo plano
-        bash "$SCRIPT_CONSOLIDAR"  # Envia a segundo plano un proceso
-        echo "Proceso corriendo en segundo plano."
-    else
-        echo "Error: No se encontró consolidar.sh en $ENTORNO"
+    parametro=$1
+    echo $parametro
+    if [[ $parametro == "-d" ]]; then
+        echo "Borrando Directorio de trabajo"
+        rm -rf $DIR_WORK 
+        exit
     fi
 }
-
-listar_por_padron() {
-    if [ -f "$ARCHIVO_SALIDA" ]; then 
-        sort -n "$ARCHIVO_SALIDA"
-    else
-        echo "Error: El archivo ${FILENAME}.txt no existe"
-    fi
+menu(){
+    echo "1. Crear Entorno"
+    echo "2. Correr Proceso"
+    echo "3. Mostrar listado" # Ordenado por padron
+    echo "4. Mostrar las 10 Notas mas Altas"
+    echo "5. Mostrar Informacion de un usuario"
+    echo "6. Salir"
 }
-
-top_10_notas() {
-    echo "Opcion seleccionada: Top 10 notas"
-    if [ -f "$ARCHIVO_SALIDA" ]; then 
-        sort k5,5 nr "$ARCHIVO_SALIDA" | head -n 10
-    else
-        echo "Error: El archivo ${FILENAME}.txt no existe en la carpeta salida."
-    fi
-}
-
-buscar_por_padron() {
-    echo "Opcion seleccionada: Buscar por padrón"
-    if [[ -f $ARCHIVO_SALIDA ]]; then
-        read -p "Ingrese un numero de padron" padron
-        grep -i $padron $ARCHIVO_SALIDA
-        echo "[+] Archivos mostrados con exito"
-    else 
-        echo "[-] No existe el fichero de notas (parametro FILENAME)"
-    fi
-}
-
-imprimir_menu() {
-    echo "-------------------------------"
-    echo "MENU DE OPCIONES"
-    echo "-------------------------------"
-    echo "1 - Crear entorno"
-    echo "2 - Correr proseso en background (mover elementos de 'entrada' a 'salida')"
-    echo "3 - Listado de fichero ordenado por padron"
-    echo "4 - Top 10 mejores notas"
-    echo "5 - Buscar por numero de padrón"
-    echo "6 - Salir"
-    echo -n "Seleccione una opcion de 1 a 6: "
-}
-
 main() {
-	if [[ $1 == "-d" ]]; then
-		borrar-entorno
-	fi
-  	continuar=0 
-    while [[ $continuar -eq 0 ]]; do
-        imprimir_menu
-        read OPCION
-
-        case $OPCION in
-            1)
+    declare -i continuar=0
+    while [[ $continuar -eq 0 ]]; do 
+        menu
+        read -p "Ingrese una Opcion: " opcion
+        case $opcion in 
+            1) 
                 crear_entorno
                 ;;
             2)
                 correr_proceso
                 ;;
-            3)
-                listar_por_padron
+            3) 
+                mostrar_listado
                 ;;
-            4)
-                top_10_notas
+            4) 
+                diez_notas_altas
                 ;;
             5)
-                buscar_por_padron
+                obtener_usuario
                 ;;
             6)
-                echo "Saliendo del programa. ¡Adiós!"
-               continuar=1
+                echo "Saliendo ..."
+                let continuar=1
                 ;;
             *)
-                echo "Opción no válida. Intente de nuevo."
+                echo "Opcion ingresada es invalida"
                 ;;
         esac
     done
-    if [[ $1 == "-d" ]]; then
-    	borrar_entorno
-    fi
+    borrar_entorno $parametro
 }
-
 main
-clear

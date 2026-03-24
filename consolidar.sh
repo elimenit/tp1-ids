@@ -1,9 +1,6 @@
 #!/bin/bash
 
-DIRECTORIO_BASE="$HOME/EPNro1"
-ARCHIVO_FINAL="$SALIDA/${FILENAME}.txt"
-for archivo in $(ls "$DIRECTORIO_BASE/entrada" --ignore=!*); do
-	echo "Moviendo el archivo $archivo a $DIRECTORIO_BASE/procesado/"
-	cat "$DIRECTORIO_BASE/entrada/$archivo" >> $ARCHIVO_FINAL
-	mv "$DIRECTORIO_BASE/entrada/$archivo" "$DIRECTORIO_BASE/procesado/$ARCHIVO_FINAL"
+for archivo in $(ls "$DIR_WORK/entrada"); do
+    cat $DIR_WORK/entrada/$archivo >> "$FILENAME.txt"
+    mv $DIR_WORK/entrada/$archivo "$DIR_WORK/procesado"
 done
