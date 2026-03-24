@@ -4,6 +4,7 @@ touch menu.sh | chmod +x
 ---------
 #menu.sh
 #!/bim/bash
+#Definicion de variables
 dir_proyeco=~/EPNro1
 salida="$dir_proyecto/salida"
 entrada="$dir_proyecto/entrada"
@@ -22,7 +23,7 @@ if [ "$parametro" == "-d" ]; then
     retroceder_script
 fi
 
-
+#Funcion para script consolidar.sh
 script_consolidar() {
     while true; do
          for archivo in "$entrada"/*.txt; do
@@ -35,6 +36,7 @@ script_consolidar() {
      done
 }
 
+#funcion para visualizar menu
 menu_usuario() {
     echo " ------MENU------"
     echo "1) Crear entorno"
@@ -45,6 +47,8 @@ menu_usuario() {
     echo "6) Salir
     echo -n "Seleccione una opcion 1/2/3/4/5/6"
 }
+
+#funcion que ejecuta menu
 main() {
     declare -i continuar=0 
     while [[ $continuar -eq 0 ]]; do 
