@@ -1,11 +1,11 @@
 export FILENAME=~/EPNro1/salida/FILENAME.txt
-mkdir dir_trabajo | cd
-touch menu.sh | chmod +x
+mkdir dir_trabajo && cd dir_trabajo
+touch menu.sh && chmod +x menu.sh
 ---------
 #menu.sh
 #!/bim/bash
 #Definicion de variables
-dir_proyeco=~/EPNro1
+dir_proyecto=~/EPNro1
 salida="$dir_proyecto/salida"
 entrada="$dir_proyecto/entrada"
 procesado="$dir_proyecto/procesado"
