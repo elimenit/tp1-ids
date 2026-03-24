@@ -49,11 +49,10 @@ obtener_usuario(){
 }
 borrar_entorno() {
     parametro=$1
-    echo $parametro
     if [[ $parametro == "-d" ]]; then
         echo "Borrando Directorio de trabajo"
         rm -rf $DIR_WORK 
-        exit
+   		trap 'kill $(jobs -p) 2>/dev/null' EXIT
     fi
 }
 menu(){
