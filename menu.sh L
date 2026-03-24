@@ -93,18 +93,18 @@ main() {
                 fi
             ;;
 
-            6) 
-                let continuar=1
+            6)  
+                echo "Saliendo..."
+                continuar=1
                 
             ;;
 
             *)
                 echo "Vuelva ha intentarlo"
                 sleep 2 
-                systemctl reboot
             ;;
         esac
-        echo -ne "\n ------------\n"
+        echo -e "\n ------------\n"
     done
 }
 
