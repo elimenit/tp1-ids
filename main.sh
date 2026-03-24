@@ -93,19 +93,19 @@ while true; do
 
     case $OPCION in
         1)
-            crear_entorno()
+            crear_entorno
             ;;
         2)
-            correr_proceso()
+            correr_proceso
             ;;
         3)
-            listar_por_padron()
+            listar_por_padron
             ;;
         4)
-            top_10_notas()
+            top_10_notas
             ;;
         5)
-            buscar_por_padron()
+            buscar_por_padron
             ;;
         6)
             echo "Saliendo del programa. ¡Adiós!"
