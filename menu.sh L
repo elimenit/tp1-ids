@@ -25,10 +25,10 @@ fi
 
 script_consolidar() {
     while true; do
-         for archivo in "$entrada"*/.txt; do
+         for archivo in "$entrada"/*.txt; do
              if [ -f $archivo ] then 
                  cat "$archivo" >> "$FILENAME"
-                 mv "$archivo" "$procesado"
+                 mv "$archivo" "$procesado/"
              fi
          done
          sleep 5
@@ -52,9 +52,11 @@ main() {
         read -p "Opcion > " opcion
         case $opcion in
             1)
-                mkdir -p EPNro1/{entrada, salida, procesado}
-                cd EPNro1 | touch consolidando.sh |chmod +x 
-                script_consolidar >> consolidando.sh
+                mkdir -p "dir_proyecto"/{entrada,salida,procesado}
+                touch "$script2"
+                chmod +x "$script2"
+                declare -f script_consolidar > "$script2"
+                echo "script_consolidar" >> "$script2"
                 echo "Entorno creado"
             ;;
 
@@ -85,7 +87,7 @@ main() {
 
             5)
                 read -p "Ingrese el padron de un usuario: " padron
-                if [[ !(-f $FILENAME) ]]; then
+                if [ ! -f $FILENAME ]; then
                     echo "El archivo $FILENAME no existe"
                 else
                     echo -en "Mostrando alumno:\n"
