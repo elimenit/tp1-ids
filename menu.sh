@@ -1,6 +1,4 @@
 #!/bin/bash
-
-# Variáveis Globais
 export FILENAME="alumnos"
 ENTORNO="$HOME/EPNro1"
 ARCHIVO_SALIDA="$ENTORNO/salida/${FILENAME}.txt"
@@ -32,12 +30,8 @@ crear_entorno() {
 
 borrar_entorno() {
     echo "Iniciando limpieza del entorno..."
-
-    # 1. Mata processos que estejam rodando o consolidar.sh
-    # O 2>/dev/null evita mensagens de erro caso não haja processos ativos
     pkill -f "consolidar.sh" 2>/dev/null
 
-    # 2. Remove o diretório inteiro de forma recursiva
     if [[ -d "$ENTORNO" ]]; then
         rm -rf "$ENTORNO"
         echo "Directorio $ENTORNO y subcarpetas eliminados."
