@@ -12,7 +12,6 @@ borrar_entorno() {
     pkill -f "consolidar.sh"
     rm -rf "$HOME/EPNro1"
     echo "Entorno eliminado y procesos finalizados."
-    exit 0
 }
 
 crear_entorno() {
@@ -81,44 +80,46 @@ imprimir_menu() {
     echo -n "Seleccione una opcion de 1 a 6: "
 }
 
+main() {
+    if [ "$1" == "-d" ]; then
+        borrar_entorno
+        exit 0
+    fi
 
-if [ "$1" == "-d" ]; then
-    borrar_entorno
-    exit 0
-fi
+    while true; do
+        imprimir_menu
+        read OPCION
 
-while true; do
-    imprimir_menu
-    read OPCION
+        case $OPCION in
+            1)
+                crear_entorno
+                ;;
+            2)
+                correr_proceso
+                ;;
+            3)
+                listar_por_padron
+                ;;
+            4)
+                top_10_notas
+                ;;
+            5)
+                buscar_por_padron
+                ;;
+            6)
+                echo "Saliendo del programa. ¡Adiós!"
+                exit 0
+                ;;
+            *)
+                echo "Opción no válida. Intente de nuevo."
+                ;;
+        esac
+        
+        echo ""
+        echo "Presione Enter para continuar..."
+        read CONTINUAR
+        clear
+    done
+}
 
-    case $OPCION in
-        1)
-            crear_entorno
-            ;;
-        2)
-            correr_proceso
-            ;;
-        3)
-            listar_por_padron
-            ;;
-        4)
-            top_10_notas
-            ;;
-        5)
-            buscar_por_padron
-            ;;
-        6)
-            echo "Saliendo del programa. ¡Adiós!"
-            exit 0
-            ;;
-        *)
-            echo "Opción no válida. Intente de nuevo."
-            ;;
-    esac
-    
-
-    echo ""
-    echo "Presione Enter para continuar..."
-    read CONTINUAR
-    clear
-done
+main
