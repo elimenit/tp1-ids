@@ -28,7 +28,7 @@ script_consolidar() {
          for archivo in "$entrada"/*.txt; do
              if [ -f $archivo ] then 
                  cat "$archivo" >> "$FILENAME"
-                 mv "$archivo" "$procesado/"
+                 mv "$archivo" "$procesado"
              fi
          done
          sleep 5
