@@ -16,7 +16,7 @@ retroceder_script() {
     rm -rf"$dir_proyecto"
     pkill -f "consolidar.sh"
     echo "entorno borrado (también se detuvieron todos los procesos secundarios)"
-]
+}
 
 if [ "$parametro" == "-d" ]; then
     retroceder_script
