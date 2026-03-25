@@ -1,16 +1,9 @@
 #!/bin/bash
 
-for archivo in $(ls "$DIR_WORK/entrada"); do
+for ruta_archivo in "$DIR_WORK/entrada"/*.txt; do
+    # Usamos $( ) para ejecutar el comando basename y obtener solo el nombre del archivo
+    nombre_archivo=$(basename "$ruta_archivo")
     # Concatenamos el contenido
-    cat "$DIR_WORK/entrada/$archivo" >> "$FILENAME.txt"
-    
-    # REGLA: $? captura el éxito (0) o error (1+) del comando anterior (cat)
-    if [[ $? -eq 0 ]]; then
-        echo "Procesado correctamente: $archivo"
-    else
-        echo "La falla está en cat y $archivo"
-    fi
-
-    # Movimiento corregido (añadida / después de procesado)
-    mv "$DIR_WORK/entrada/$archivo" "$DIR_WORK/procesado/$archivo"
+    cat "$ruta_archivo" >> "$FILENAME.txt"
+    mv "$ruta_archivo" "$DIR_WORK/procesado/$nombre_archivo"
 done
